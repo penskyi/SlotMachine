@@ -40,7 +40,7 @@ namespace ConsoleApp1
 
                 Console.WriteLine("Your Remaining Money Total is:" + playerMoneyTotal);
 
-                Console.WriteLine("Which line do you want to play?\n1 (Center line)\n2 (All Horizontal Lines)\n3 (All lines and diagonals)");
+                Console.WriteLine("Which line do you want to play?\n1 (Center line)\n2 (All Horizontal Lines)\n3 (All vertical lines and diagonals)");
                 int playLine = Convert.ToInt32(Console.ReadLine());
 
                 // Check winning combinations based on the user choice 
