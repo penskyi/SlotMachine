@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SlotMachineGame": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "playLine": "1"
+      }
+    }
+  }
+}

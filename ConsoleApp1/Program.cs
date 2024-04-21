@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlTypes;
+using System.Security.AccessControl;
 
 namespace ConsoleApp1
 {
@@ -40,7 +41,7 @@ namespace ConsoleApp1
 
                 Console.WriteLine("Input your wage amount in $:");
                 int wageAmount = Convert.ToInt32(Console.ReadLine());
-                if (wageAmount<=0)
+                if (wageAmount <= 0)
                 {
                     Console.WriteLine("Wage should be greater than Zero");
                     continue;
@@ -54,7 +55,7 @@ namespace ConsoleApp1
                 Console.WriteLine("Which line do you want to play?\n1 (Center line)\n2 (All Horizontal Lines)\n3 (All vertical lines and diagonals)");
                 int playLine = Convert.ToInt32(Console.ReadLine());
 
-                if(playLine != PLAY_MODE_ONE_LINE && playLine != PLAYMODE_ALL_LINES && playLine != PLAYMODE_ALL_LINES_AND_DIAGONALS)
+                if (playLine != PLAY_MODE_ONE_LINE && playLine != PLAYMODE_ALL_LINES && playLine != PLAYMODE_ALL_LINES_AND_DIAGONALS)
                 {
                     Console.WriteLine("Please select a correct mode");
                     continue;
@@ -73,22 +74,101 @@ namespace ConsoleApp1
                             Console.WriteLine("You Lost this round. Try again");
                             break;
                         }
-                            Console.WriteLine("WIN! =)");
-                            playerMoneyTotal += wageAmount * MULTIPLIER;
-                            continue;
+                        Console.WriteLine("WIN! =)");
+                        playerMoneyTotal += wageAmount * MULTIPLIER;
+                        continue;
                     }
                 }
 
                 if (playLine == PLAYMODE_ALL_LINES)
                 {
-                    // Implement logic to check winning combination for all horizontal lines
-                    // Return true if winning combination is found, false otherwise
+                    // Check all horizontal lines
+                    for (int h = 0; h < GRID_LENGHT_HORIZONTAL; h++)
+                    {
+                        bool isWinningLine = true;
+                        for (int v = 1; v < GRID_LENGHT_VERTICAL; v++)
+                        {
+                            if (playScreen[h, v] != playScreen[h, 0])
+                            {
+                                isWinningLine = false;
+                                break;
+                            }
+                        }
+                        if (isWinningLine)
+                        {
+                            playerMoneyTotal += wageAmount * MULTIPLIER;
+                            Console.WriteLine("You won on the line " + (h + 1));
+                        }
+                        else
+                            Console.WriteLine("You lost as line " + (h + 1) + " has not match");
+                    }
                 }
 
                 if (playLine == PLAYMODE_ALL_LINES_AND_DIAGONALS)
                 {
                     // Implement logic to check winning combination all vertical lines and diagonals
                     // Return true if winning combination is found, false otherwise
+                    // Check all horizontal lines
+                    for (int h = 0; h < GRID_LENGHT_HORIZONTAL; h++)
+                    {
+                        bool isWinningLine = true;
+                        for (int v = 1; v < GRID_LENGHT_VERTICAL; v++)
+                        {
+                            if (playScreen[h, v] != playScreen[h, 0])
+                            {
+                                isWinningLine = false;
+                                break;
+                            }
+                        }
+                        if (isWinningLine)
+                        {
+                            playerMoneyTotal += wageAmount * MULTIPLIER;
+                            Console.WriteLine("You won on the line " + (h + 1));
+                        }
+                        else
+                            Console.WriteLine("You lost as line " + (h + 1) + " has not match");
+                    }
+
+                    // check diagonal
+                    bool isWinningDiagonal = true;
+                    for (int i = 1; i < GRID_LENGHT_VERTICAL; i++)
+                    {
+                        if (playScreen[i, i] != playScreen[0, 0])
+                        {
+                            isWinningDiagonal = false;
+                            break;
+                        }
+                    }
+                    if (isWinningDiagonal)
+                    {
+                        playerMoneyTotal += wageAmount * MULTIPLIER;
+                        Console.WriteLine("You won on the diagonal");
+                    }
+                    else
+                    {
+                        Console.WriteLine("You lost in the diagonale");
+                    }
+
+
+                    // check reverse diagonal
+                    bool isWinningDiagonalReverse = true;
+                    for (int i = GRID_LENGHT_VERTICAL - 1; i >= 0; i--)
+                    {
+                        if (playScreen[i, GRID_LENGHT_VERTICAL - 1 - i] != playScreen[0, GRID_LENGHT_VERTICAL - 1])
+                        {
+                            isWinningDiagonalReverse = false;
+                            break;
+                        }
+                    }
+                    if (isWinningDiagonalReverse)
+                    {
+                        playerMoneyTotal += wageAmount * MULTIPLIER;
+                        Console.WriteLine("You won on the reverse diagonal");
+                    }
+                    else
+                    {
+                        Console.WriteLine("You lost in the reverse diagonale");
+                    }
                 }
 
                 if (playerMoneyTotal <= 0)
@@ -96,7 +176,6 @@ namespace ConsoleApp1
                     Console.WriteLine("Game Over! No more money left!");
                     break;
                 }
-
             }
         }
     }
