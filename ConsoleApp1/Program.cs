@@ -6,8 +6,7 @@ namespace ConsoleApp1
 {
     internal class Program
     {
-        const int GRID_LENGHT_HORIZONTAL = 3;
-        const int GRID_LENGHT_VERTICAL = 3;
+        const int GRID_SIZE = 3;
         const int MULTIPLIER = 2;
         const int PLAY_MODE_ONE_LINE = 1;
         const int PLAYMODE_ALL_LINES = 2;
@@ -20,19 +19,19 @@ namespace ConsoleApp1
 
             while (playerMoneyTotal > 0)
             {
-                int[,] playScreen = new int[GRID_LENGHT_HORIZONTAL, GRID_LENGHT_VERTICAL];
+                int[,] playScreen = new int[GRID_SIZE, GRID_SIZE];
 
-                for (int h = 0; h < GRID_LENGHT_HORIZONTAL; h++)
+                for (int h = 0; h < GRID_SIZE; h++)
                 {
-                    for (int v = 0; v < GRID_LENGHT_VERTICAL; v++)
+                    for (int v = 0; v < GRID_SIZE; v++)
                     {
                         playScreen[h, v] = random.Next(0, 2);
                     }
                 }
 
-                for (int h = 0; h < GRID_LENGHT_HORIZONTAL; h++)
+                for (int h = 0; h < GRID_SIZE; h++)
                 {
-                    for (int v = 0; v < GRID_LENGHT_VERTICAL; v++)
+                    for (int v = 0; v < GRID_SIZE; v++)
                     {
                         Console.Write(playScreen[h, v]);
                     }
@@ -65,7 +64,7 @@ namespace ConsoleApp1
 
                 if (playLine == PLAY_MODE_ONE_LINE)
                 {
-                    int gridSize = GRID_LENGHT_HORIZONTAL;
+                    int gridSize = GRID_SIZE;
                     int middleRowIndex = gridSize / 2;
                     for (int j = 0; j < gridSize; j++)
                     {
@@ -83,10 +82,10 @@ namespace ConsoleApp1
                 if (playLine == PLAYMODE_ALL_LINES)
                 {
                     // Check all horizontal lines
-                    for (int h = 0; h < GRID_LENGHT_HORIZONTAL; h++)
+                    for (int h = 0; h < GRID_SIZE; h++)
                     {
                         bool isWinningLine = true;
-                        for (int v = 1; v < GRID_LENGHT_VERTICAL; v++)
+                        for (int v = 1; v < GRID_SIZE; v++)
                         {
                             if (playScreen[h, v] != playScreen[h, 0])
                             {
@@ -109,10 +108,10 @@ namespace ConsoleApp1
                     // Implement logic to check winning combination all vertical lines and diagonals
                     // Return true if winning combination is found, false otherwise
                     // Check all horizontal lines
-                    for (int h = 0; h < GRID_LENGHT_HORIZONTAL; h++)
+                    for (int h = 0; h < GRID_SIZE; h++)
                     {
                         bool isWinningLine = true;
-                        for (int v = 1; v < GRID_LENGHT_VERTICAL; v++)
+                        for (int v = 1; v < GRID_SIZE; v++)
                         {
                             if (playScreen[h, v] != playScreen[h, 0])
                             {
@@ -131,7 +130,7 @@ namespace ConsoleApp1
 
                     // check diagonal
                     bool isWinningDiagonal = true;
-                    for (int i = 1; i < GRID_LENGHT_VERTICAL; i++)
+                    for (int i = 1; i < GRID_SIZE; i++)
                     {
                         if (playScreen[i, i] != playScreen[0, 0])
                         {
@@ -152,9 +151,9 @@ namespace ConsoleApp1
 
                     // check reverse diagonal
                     bool isWinningDiagonalReverse = true;
-                    for (int i = GRID_LENGHT_VERTICAL - 1; i >= 0; i--)
+                    for (int i = GRID_SIZE - 1; i >= 0; i--)
                     {
-                        if (playScreen[i, GRID_LENGHT_VERTICAL - 1 - i] != playScreen[0, GRID_LENGHT_VERTICAL - 1])
+                        if (playScreen[i, GRID_SIZE - 1 - i] != playScreen[0, GRID_SIZE - 1])
                         {
                             isWinningDiagonalReverse = false;
                             break;
