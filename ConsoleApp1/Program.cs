@@ -39,26 +39,43 @@ namespace ConsoleApp1
                 }
 
                 Console.WriteLine("Input your wage amount in $:");
-                int wageAmount = Convert.ToInt32(Console.ReadLine());
-                if (wageAmount <= 0)
+                int wageAmount;
+                string userInput = Console.ReadLine();
+                if (int.TryParse(userInput, out wageAmount) && wageAmount > 0)
                 {
-                    Console.WriteLine("Wage should be greater than Zero");
+                    Console.WriteLine("You bid was placed...");
+                }
+                else
+                {
+                    Console.WriteLine("Invalide wage amount. Please put a valide wage greater then zero");
                     continue;
                 }
 
 
-                playerMoneyTotal -= wageAmount;
-
                 Console.WriteLine("Your Remaining Money Total is:" + playerMoneyTotal);
 
                 Console.WriteLine("Which line do you want to play?\n1 (Center line)\n2 (All Horizontal Lines)\n3 (All vertical lines and diagonals)");
-                int playLine = Convert.ToInt32(Console.ReadLine());
+                int playLine;
+                string userInputPlayLine = Console.ReadLine();
+                if (int.TryParse(userInputPlayLine, out playLine))
+                {
+                    Console.WriteLine("Your play mode amount is accepted...");
+                }
+                else
+                {
+                    Console.WriteLine("Please enter the correct play mode, it should be a number");
+                    continue;
+                }
+
 
                 if (playLine != PLAY_MODE_ONE_LINE && playLine != PLAYMODE_ALL_LINES && playLine != PLAYMODE_ALL_LINES_AND_DIAGONALS)
                 {
                     Console.WriteLine("Please select a correct mode");
                     continue;
                 }
+
+                Console.WriteLine("Spinning the wheels...");
+                playerMoneyTotal -= wageAmount;
 
                 // Check winning combinations based on the user choice 
 
