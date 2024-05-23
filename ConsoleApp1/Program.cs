@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SlotMachineGame;
+using System;
 using System.Data.SqlTypes;
 using System.Security.AccessControl;
 
@@ -6,12 +7,6 @@ namespace ConsoleApp1
 {
     internal class Program
     {
-        const int GRID_SIZE = 3;
-        const int MULTIPLIER = 2;
-        const int PLAY_MODE_ONE_LINE = 1;
-        const int PLAYMODE_ALL_LINES = 2;
-        const int PLAYMODE_ALL_LINES_AND_DIAGONALS = 3;
-
         static void Main(string[] args)
         {
             int playerMoneyTotal = 10;
@@ -19,19 +14,19 @@ namespace ConsoleApp1
 
             while (playerMoneyTotal > 0)
             {
-                int[,] playScreen = new int[GRID_SIZE, GRID_SIZE];
+                int[,] playScreen = new int[Constants.GRID_SIZE, Constants.GRID_SIZE];
 
-                for (int h = 0; h < GRID_SIZE; h++)
+                for (int h = 0; h < Constants.GRID_SIZE; h++)
                 {
-                    for (int v = 0; v < GRID_SIZE; v++)
+                    for (int v = 0; v < Constants.GRID_SIZE; v++)
                     {
                         playScreen[h, v] = random.Next(0, 2);
                     }
                 }
 
-                for (int h = 0; h < GRID_SIZE; h++)
+                for (int h = 0; h < Constants.GRID_SIZE; h++)
                 {
-                    for (int v = 0; v < GRID_SIZE; v++)
+                    for (int v = 0; v < Constants.GRID_SIZE; v++)
                     {
                         Console.Write(playScreen[h, v]);
                     }
@@ -68,7 +63,7 @@ namespace ConsoleApp1
                 }
 
 
-                if (playLine != PLAY_MODE_ONE_LINE && playLine != PLAYMODE_ALL_LINES && playLine != PLAYMODE_ALL_LINES_AND_DIAGONALS)
+                if (playLine != Constants.PLAY_MODE_ONE_LINE && playLine != Constants.PLAYMODE_ALL_LINES && playLine != Constants.PLAYMODE_ALL_LINES_AND_DIAGONALS)
                 {
                     Console.WriteLine("Please select a correct mode");
                     continue;
@@ -79,9 +74,9 @@ namespace ConsoleApp1
 
                 // Check winning combinations based on the user choice 
 
-                if (playLine == PLAY_MODE_ONE_LINE)
+                if (playLine == Constants.PLAY_MODE_ONE_LINE)
                 {
-                    int gridSize = GRID_SIZE;
+                    int gridSize = Constants.GRID_SIZE;
                     int middleRowIndex = gridSize / 2;
                     for (int j = 0; j < gridSize; j++)
                     {
@@ -91,18 +86,18 @@ namespace ConsoleApp1
                             break;
                         }
                         Console.WriteLine("WIN! =)");
-                        playerMoneyTotal += wageAmount * MULTIPLIER;
+                        playerMoneyTotal += wageAmount * Constants.MULTIPLIER;
                         continue;
                     }
                 }
 
-                if (playLine == PLAYMODE_ALL_LINES)
+                if (playLine == Constants.PLAYMODE_ALL_LINES)
                 {
                     // Check all horizontal lines
-                    for (int h = 0; h < GRID_SIZE; h++)
+                    for (int h = 0; h < Constants.GRID_SIZE; h++)
                     {
                         bool isWinningLine = true;
-                        for (int v = 1; v < GRID_SIZE; v++)
+                        for (int v = 1; v < Constants.GRID_SIZE; v++)
                         {
                             if (playScreen[h, v] != playScreen[h, 0])
                             {
@@ -112,7 +107,7 @@ namespace ConsoleApp1
                         }
                         if (isWinningLine)
                         {
-                            playerMoneyTotal += wageAmount * MULTIPLIER;
+                            playerMoneyTotal += wageAmount * Constants.MULTIPLIER;
                             Console.WriteLine("You won on the line " + (h + 1));
                         }
                         else
@@ -120,15 +115,15 @@ namespace ConsoleApp1
                     }
                 }
 
-                if (playLine == PLAYMODE_ALL_LINES_AND_DIAGONALS)
+                if (playLine == Constants.PLAYMODE_ALL_LINES_AND_DIAGONALS)
                 {
                     // Implement logic to check winning combination all vertical lines and diagonals
                     // Return true if winning combination is found, false otherwise
                     // Check all horizontal lines
-                    for (int h = 0; h < GRID_SIZE; h++)
+                    for (int h = 0; h < Constants.GRID_SIZE; h++)
                     {
                         bool isWinningLine = true;
-                        for (int v = 1; v < GRID_SIZE; v++)
+                        for (int v = 1; v < Constants.GRID_SIZE; v++)
                         {
                             if (playScreen[h, v] != playScreen[h, 0])
                             {
@@ -138,7 +133,7 @@ namespace ConsoleApp1
                         }
                         if (isWinningLine)
                         {
-                            playerMoneyTotal += wageAmount * MULTIPLIER;
+                            playerMoneyTotal += wageAmount * Constants.MULTIPLIER;
                             Console.WriteLine("You won on the line " + (h + 1));
                         }
                         else
@@ -147,7 +142,7 @@ namespace ConsoleApp1
 
                     // check diagonal
                     bool isWinningDiagonal = true;
-                    for (int i = 1; i < GRID_SIZE; i++)
+                    for (int i = 1; i < Constants.GRID_SIZE; i++)
                     {
                         if (playScreen[i, i] != playScreen[0, 0])
                         {
@@ -157,7 +152,7 @@ namespace ConsoleApp1
                     }
                     if (isWinningDiagonal)
                     {
-                        playerMoneyTotal += wageAmount * MULTIPLIER;
+                        playerMoneyTotal += wageAmount * Constants.MULTIPLIER;
                         Console.WriteLine("You won on the diagonal");
                     }
                     else
@@ -168,9 +163,9 @@ namespace ConsoleApp1
 
                     // check reverse diagonal
                     bool isWinningDiagonalReverse = true;
-                    for (int i = GRID_SIZE - 1; i >= 0; i--)
+                    for (int i = Constants.GRID_SIZE - 1; i >= 0; i--)
                     {
-                        if (playScreen[i, GRID_SIZE - 1 - i] != playScreen[0, GRID_SIZE - 1])
+                        if (playScreen[i, Constants.GRID_SIZE - 1 - i] != playScreen[0, Constants.GRID_SIZE - 1])
                         {
                             isWinningDiagonalReverse = false;
                             break;
@@ -178,7 +173,7 @@ namespace ConsoleApp1
                     }
                     if (isWinningDiagonalReverse)
                     {
-                        playerMoneyTotal += wageAmount * MULTIPLIER;
+                        playerMoneyTotal += wageAmount * Constants.MULTIPLIER;
                         Console.WriteLine("You won on the reverse diagonal");
                     }
                     else
