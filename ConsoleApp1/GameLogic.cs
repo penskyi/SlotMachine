@@ -29,7 +29,7 @@ namespace SlotMachineGame
             {
                 for (int v = 0; v < Constants.GRID_SIZE; v++)
                 {
-                    playScreen[h, v] = random.Next(0, 2);
+                    playScreen[h, v] = random.Next(Constants.GAME_BOARD_PLAY_RANGE_MIN, Constants.GAME_BOARD_PLAY_RANGE_MAX);
                 }
             }
         }
@@ -52,7 +52,7 @@ namespace SlotMachineGame
             {
                 for (int v = 0; v < Constants.GRID_SIZE; v++)
                 {
-                    Console.Write("X");
+                    Console.Write(Constants.GAME_BOARD_PLACEHOLDER);
                 }
                 Console.WriteLine();
             }
@@ -165,6 +165,16 @@ namespace SlotMachineGame
             }
 
             return isWinningDiagonal || isWinningDiagonalReverse;
+        }
+
+
+        public static bool IsValidMove()
+        {
+            if (int.TryParse(UI.userInput, out UI.move) && UI.move >= Constants.PLAY_MODE_CHOICE_MIN && UI.move <= Constants.PLAY_MODE_CHOICE_MAX)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

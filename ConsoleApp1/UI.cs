@@ -8,10 +8,15 @@ namespace SlotMachineGame
 {
     public class UI
     {
+        public static int move = 1;
+        public static bool inputNotAcceppted = true;
+        public static string userInput = "";
+
         public static void DisplayEmptyPlayScreen()
         {
             GameLogic.InitializePlayScreen();
             GameLogic.DisplayEmptyPlayScreen();
+            DisplayCurrentMoney();
         }
         public static void DisplayPlayScreen()
         {
@@ -45,14 +50,25 @@ namespace SlotMachineGame
             return -1;
         }
 
+
         public static int GetPlayMode()
         {
-            Console.WriteLine("Which line do you want to play?\n1 (Center line)\n2 (All Horizontal Lines)\n3 (All vertical lines and diagonals)");
-            if (int.TryParse(Console.ReadLine(), out int playMode))
+            while (inputNotAcceppted)
             {
-                return playMode;
+                DisplayMessage("Which line do you want to play?\n1 (Center line)\n2 (All Horizontal Lines)\n3 (All vertical lines and diagonals)");
+                userInput = Console.ReadLine();
+
+                if (GameLogic.IsValidMove())
+                {
+                    inputNotAcceppted = false;
+                }
+                else
+                {
+                    DisplayMessage("Wrong play mode. Please enter a correct play mode.");
+                }
             }
-            return -1;
+            inputNotAcceppted = true; // in case you exit the lopp after unsuccessful attempt, you need to reset to deafult
+            return move;
         }
 
         public static void DisplayMessage(string message)
@@ -60,9 +76,9 @@ namespace SlotMachineGame
             Console.WriteLine(message);
         }
 
-        public static void DisplayRemainingMoney()
+        public static void DisplayCurrentMoney()
         {
-            DisplayMessage("Your Remaining Money Total is: " + GameLogic.PlayerMoneyTotal);
+            DisplayMessage("Your Current Money Total is: " + GameLogic.PlayerMoneyTotal);
         }
 
 
@@ -86,7 +102,6 @@ namespace SlotMachineGame
                 DisplayMessage("You Lost this round. Try again");
             }
 
-            DisplayRemainingMoney();
 
             if (GameLogic.PlayerMoneyTotal <= 0)
             {
@@ -100,7 +115,7 @@ namespace SlotMachineGame
             DisplayMessage("Do you want to play again? (y/n)");
             char response = Console.ReadKey().KeyChar;
             Console.WriteLine();
-            if (response != 'y' && response != 'Y')
+            if (response != Constants.USER_YES_LOVER_CASE && response != Constants.USER_YES_UPPER_CASE)
             {
                 GameLogic.playAgain = false;
                 GameLogic.gameState = GameState.GameOver;
