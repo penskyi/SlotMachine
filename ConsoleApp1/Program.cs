@@ -16,6 +16,7 @@ namespace SlotMachineGame
                 while (GameLogic.gameState == GameState.InProgress)
                 {               
                     UI.DisplayEmptyPlayScreen();
+                    UI.DisplayCurrentMoney();
                     UI.GetUserInput();
                     UI.MakeSpin();
                     UI.ShowGameResult();

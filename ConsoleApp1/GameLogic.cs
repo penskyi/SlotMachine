@@ -8,7 +8,7 @@ namespace SlotMachineGame
 {
     internal class GameLogic
     {
-        private static int[,] playScreen;
+        public static int[,] playScreen;
         private static Random random = new Random();
         public static int PlayerMoneyTotal { get; private set; }
         public static int WageAmount { get; private set; }
@@ -34,29 +34,6 @@ namespace SlotMachineGame
             }
         }
 
-        public static void DisplayPlayScreen()
-        {
-            for (int h = 0; h < Constants.GRID_SIZE; h++)
-            {
-                for (int v = 0; v < Constants.GRID_SIZE; v++)
-                {
-                    Console.Write(playScreen[h, v]);
-                }
-                Console.WriteLine();
-            }
-        }
-
-        public static void DisplayEmptyPlayScreen()
-        {
-            for (int h = 0; h < Constants.GRID_SIZE; h++)
-            {
-                for (int v = 0; v < Constants.GRID_SIZE; v++)
-                {
-                    Console.Write(Constants.GAME_BOARD_PLACEHOLDER);
-                }
-                Console.WriteLine();
-            }
-        }
 
         public static bool PutWageSum(int wageAmount)
         {

@@ -15,12 +15,26 @@ namespace SlotMachineGame
         public static void DisplayEmptyPlayScreen()
         {
             GameLogic.InitializePlayScreen();
-            GameLogic.DisplayEmptyPlayScreen();
-            DisplayCurrentMoney();
+            for (int h = 0; h < Constants.GRID_SIZE; h++)
+            {
+                for (int v = 0; v < Constants.GRID_SIZE; v++)
+                {
+                    Console.Write(Constants.GAME_BOARD_PLACEHOLDER);
+                }
+                Console.WriteLine();
+            }
         }
+
         public static void DisplayPlayScreen()
         {
-            GameLogic.DisplayPlayScreen();
+            for (int h = 0; h < Constants.GRID_SIZE; h++)
+            {
+                for (int v = 0; v < Constants.GRID_SIZE; v++)
+                {
+                    Console.Write(GameLogic.playScreen[h, v]);
+                }
+                Console.WriteLine();
+            }
         }
 
         public static void GetUserInput()
@@ -49,7 +63,6 @@ namespace SlotMachineGame
             }
             return -1;
         }
-
 
         public static int GetPlayMode()
         {
@@ -80,7 +93,6 @@ namespace SlotMachineGame
         {
             DisplayMessage("Your Current Money Total is: " + GameLogic.PlayerMoneyTotal);
         }
-
 
         public static void MakeSpin()
         {
