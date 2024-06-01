@@ -74,7 +74,7 @@ namespace SlotMachineGame
 
             if (mode == Constants.PLAY_MODE_ALL_LINES_AND_DIAGONALS)
             {
-                return CheckAllHorizontalLines() || CheckDiagonals();
+                return CheckAllVerticalLinesAndDiagonals();
             }
 
             return false;
@@ -96,7 +96,7 @@ namespace SlotMachineGame
 
         private static bool CheckAllHorizontalLines()
         {
-            bool anyWinningLine = false;
+            bool allWinningLines = true;
 
             for (int h = 0; h < Constants.GRID_SIZE; h++)
             {
@@ -109,20 +109,42 @@ namespace SlotMachineGame
                         break;
                     }
                 }
-                if (isWinningLine)
+                if (!isWinningLine)
                 {
-                    PlayerMoneyTotal += WageAmount * Constants.MULTIPLIER;
-                    anyWinningLine = true;
+                    allWinningLines = false;
+                    break; // exit the loop if any of the horizontal lines is not winning the round.
                 }
             }
-            return anyWinningLine;
+            if (allWinningLines)
+            {
+                PlayerMoneyTotal += WageAmount * Constants.MULTIPLIER;
+            }
+            return allWinningLines;
         }
 
-        private static bool CheckDiagonals()
+        private static bool CheckAllVerticalLinesAndDiagonals()
         {
+            bool allVerticalsWinning = true;
+            for (int v = 0; v < Constants.GRID_SIZE; v++)
+            {
+                bool isVerticalWinning = true;
+                for (int h = 1; h < Constants.GRID_SIZE; h++)
+                {
+                    if (playScreen[h, v] != playScreen[0, v])
+                    {
+                        isVerticalWinning = false;
+                        break;
+                    }
+                }
+                if (!isVerticalWinning)
+                {
+                    allVerticalsWinning = false;
+                    break;
+                }
+            }
+            // Check both diagonals
             bool isWinningDiagonal = true;
             bool isWinningDiagonalReverse = true;
-
             for (int i = 1; i < Constants.GRID_SIZE; i++)
             {
                 if (playScreen[i, i] != playScreen[0, 0])
@@ -135,15 +157,15 @@ namespace SlotMachineGame
                     isWinningDiagonalReverse = false;
                 }
             }
-
-            if (isWinningDiagonal || isWinningDiagonalReverse)
+            bool allWinning = allVerticalsWinning && isWinningDiagonal && isWinningDiagonalReverse;
+            // If all verticals and both diagonals are winning, only then declare a win
+            if (allWinning)
             {
                 PlayerMoneyTotal += WageAmount * Constants.MULTIPLIER;
             }
 
-            return isWinningDiagonal || isWinningDiagonalReverse;
+            return allWinning;
         }
-
 
         public static bool IsValidMove()
         {
